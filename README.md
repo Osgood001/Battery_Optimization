@@ -4,6 +4,24 @@
 >
 > Osgood @2024-04-12 19:33:36
 
+## How to Use The Code
+
+Simply clone this repo
+
+```bash
+git clone https://github.com/Osgood001/Battery_Optimization.git
+cd Battery_Optimization
+```
+
+run the code
+
+```bash
+python plot_cover_line.py --start 0.1 --stop 0.99 --step 10 --N 5
+```
+
+and you will see results in figures/ and data/ directory.
+
+Only `matplotlib`, `numpy`, `scipy`, `tqdm` are needed.
 
 ## Problem Reformulated
 
@@ -647,3 +665,7 @@ $Q/W_in = f(\Delta I)$
 > 但是，如果令Vf很小，反而容易给出eta小的情况，eta大的反而算不出
 >
 > 因为eta与Vf正相关，如果Vf小，eta自然就会小（在确定的充电策略情况下）
+
+## Plot the diagarms
+
+第一步，

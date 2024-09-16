@@ -1,4 +1,3 @@
-
 import numpy as np
 from scipy.optimize import NonlinearConstraint, LinearConstraint
 from scipy.optimize import minimize
