@@ -1,23 +1,31 @@
-# constants
-vm=1
-vf=0.99
-v1=0
-c=1
-r=0.05
-i3=(vm-vf)/r
-# derived constatns
-tau_0 = c * r
-C = c
-R = r
-W =  c / 2 * (vf**2 - v1**2)
 
-def objective_function(eta_new, N):
+import numpy as np
+from scipy.optimize import NonlinearConstraint, LinearConstraint
+from scipy.optimize import minimize
+
+def objective_function(eta_new=.2, N=5, vm=1., vf=.99, v1=0, c=1, r=1):
+  """
+  The optimization code, verified.
+  Given parameters including
+
+  Params:
+    vm
+    vf
+    v1
+    c
+    r
+    eta
+  and the solution stage number
+    N
+  
+  derive the corresponding charging strategy with maximal power
+
+  and the real efficiency eta
+
+  return: 
+    power, eta
+  """
   # constants
-  vm=1
-  vf=0.99
-  v1=0
-  c=1
-  r=0.05
   eta=eta_new
   i3=(vm-vf)/r
   # derived constatns
@@ -64,7 +72,7 @@ def objective_function(eta_new, N):
   # Nonlinear
   def constraint(I):
           return tau_0 * I[0] * (vm-v1 - I[0] * R) + np.sum(tau_0 * R * I[1:] * (I[:-1] - I[1:])) + tau_0 * R * i3 * (I[-1] - i3 * R)- Q
-
+  
   nonlinear_constraint = NonlinearConstraint(constraint, 0, 0)
   # Linear
   matrix = build_matrix(N)
@@ -93,9 +101,8 @@ def objective_function(eta_new, N):
   # ax = plot(np.append(res.x, i3), '*')
   # print(res)
 
-  print(f"Initial Power:{-objective(I0)}")
-  print(f"Current Power:{-objective(res.x)}")
-  print(f"Expected eta: {eta} \nCurrent eta: {real_eta} \n")
+  # print(f"Initial Power:{-objective(I0)}")
+  # print(f"Current Power:{-objective(res.x)}")
+  # print(f"Expected eta: {eta} \nCurrent eta: {real_eta} \n")
 
   return -objective(res.x), real_eta
-
